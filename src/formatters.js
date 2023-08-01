@@ -26,6 +26,7 @@ export class FormatActivity {
       candidateGroups,
       scheduledStart,
       assignee,
+      formKey
     } = activity.behaviour;
 
     if (candidateUsers) user = resolveAndSplit(elementApi, candidateUsers);
@@ -46,13 +47,14 @@ export class FormatActivity {
     }
 
     return {
-      ...(this.resultVariable && {resultVariable: this.resultVariable}),
-      ...(scheduledStart && activity.parent.type === 'bpmn:Process' && {scheduledStart}),
-      ...(user?.length && {candidateUsers: user}),
-      ...(groups?.length && {candidateGroups: groups}),
-      ...(!elementApi.content.description && description && {description: elementApi.resolveExpression(description)}),
-      ...(expireAt && {expireAt}),
-      ...(assigneeValue && {assignee: assigneeValue}),
+      ...(this.resultVariable && { resultVariable: this.resultVariable }),
+      ...(scheduledStart && activity.parent.type === 'bpmn:Process' && { scheduledStart }),
+      ...(user?.length && { candidateUsers: user }),
+      ...(groups?.length && { candidateGroups: groups }),
+      ...(!elementApi.content.description && description && { description: elementApi.resolveExpression(description) }),
+      ...(expireAt && { expireAt }),
+      ...(assigneeValue && { assignee: assigneeValue }),
+      ...(formKey && { formKey })
     };
   }
 }
@@ -75,9 +77,9 @@ export class FormatProcess {
     if (documentation) description = documentation[0]?.text;
 
     return {
-      ...(user?.length && {candidateStarterUsers: user}),
-      ...(groups?.length && {candidateStarterGroups: groups}),
-      ...(!elementApi.content.description && description && {description: elementApi.resolveExpression(description)}),
+      ...(user?.length && { candidateStarterUsers: user }),
+      ...(groups?.length && { candidateStarterGroups: groups }),
+      ...(!elementApi.content.description && description && { description: elementApi.resolveExpression(description) }),
     };
   }
 }
